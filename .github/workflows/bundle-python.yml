@@ -1,0 +1,24 @@
+name: bundle-python-embed-venv
+
+on: push
+
+jobs:
+  build-distro:
+    name: Bundle Windows Embeddable Python with pip and virtualenv
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Run Bundle script
+        run: .\Bundle-Python.ps1 -PythonVersion "3.8.6"
+        shell: pwsh
+      - name: Archive artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: python-3.8.6-embed-amd64-venv
+          path: python/
