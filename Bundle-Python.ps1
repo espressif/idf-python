@@ -1,6 +1,6 @@
 
 param (
-    [string]$PythonVersion="3.8.6"
+    [string]$PythonVersion="3.9.1"
 )
 
 # Creates custom build of Python Embedded and apply changes so that it works with virtualenv

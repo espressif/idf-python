@@ -10,15 +10,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up Python 3.8
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.9'
       - name: Run Bundle script
-        run: .\Bundle-Python.ps1 -PythonVersion "3.8.6"
+        run: .\Bundle-Python.ps1 -PythonVersion "3.9.1"
         shell: pwsh
       - name: Archive artifact
         uses: actions/upload-artifact@v2
         with:
-          name: python-3.8.6-embed-amd64-venv
+          name: idf-python-3.9.1-embed-win64
           path: python/
