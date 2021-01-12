@@ -1,6 +1,6 @@
 
 param (
-    [string]$PythonVersion="3.9.1"
+    [string]$PythonVersion="3.8.6"
 )
 
 # Creates custom build of Python Embedded and apply changes so that it works with virtualenv
@@ -43,4 +43,4 @@ Copy-Item ${PythonVenvScripts}\python.exe ${PythonDirectory}\Lib\venv\scripts\nt
 Copy-Item ${PythonVenvScripts}\pythonw.exe ${PythonDirectory}\Lib\venv\scripts\nt
 
 # Create final zip - GitHub performs compression of artifacts automatically
-#Compress-Archive -Path "python" -DestinationPath "python.zip"
+Compress-Archive -Path "python\*" -DestinationPath "python.zip"
