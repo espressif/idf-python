@@ -16,9 +16,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.8'
       - name: Run Bundle script
-        run: .\Bundle-Python.ps1 -PythonVersion "3.9.1"
+        run: .\Bundle-Python.ps1 -PythonVersion "3.8.7"
         shell: pwsh
       - name: Create Release
         id: create_release
@@ -38,5 +38,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./python.zip
-          asset_name: python-3.9.1-embed-amd64-venv.zip
+          asset_name: idf-python-3.8.7-embed-win64.zip.zip
           asset_content_type: application/zip
