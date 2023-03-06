@@ -25,6 +25,7 @@ Remove-Item "python.zip"
 # Virtualenv layer
 Invoke-WebRequest -Uri "https://bootstrap.pypa.io/get-pip.py" -Out "get-pip.py"
 & .\${PythonDirectory}\python.exe "get-pip.py"
+& .\${PythonDirectory}\python.exe -m pip install ensurepip
 
 if ($True -eq $InstallVirtualenv) {
     & .\${PythonDirectory}\python.exe -m pip install virtualenv
@@ -46,11 +47,14 @@ if ($null -eq (Get-Command "python.exe" -ErrorAction SilentlyContinue))  {
     }
     $SystemPythonPath = (Get-Command python).path
     $PythonVenvScripts = Join-Path -Path (Split-Path $SystemPythonPath -Parent) -ChildPath Lib\venv\scripts\nt
+    $VenvScripts = Join-Path -Path (Split-Path $SystemPythonPath -Parent) -ChildPath Lib\venv
 }
 
 mkdir ${PythonDirectory}\Lib\venv\scripts\nt
 Copy-Item ${PythonVenvScripts}\python.exe ${PythonDirectory}\Lib\venv\scripts\nt
 Copy-Item ${PythonVenvScripts}\pythonw.exe ${PythonDirectory}\Lib\venv\scripts\nt
+Copy-Item ${VenvScripts}\__init__.py ${PythonDirectory}\Lib\venv\
+Copy-Item ${VenvScripts}\__main__.py ${PythonDirectory}\Lib\venv\
 
 # Create final zip - GitHub performs compression of artifacts automatically
 Compress-Archive -Path "python\*" -DestinationPath "python.zip"
