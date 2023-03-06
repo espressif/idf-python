@@ -16,9 +16,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.11'
       - name: Run Bundle script
-        run: .\Bundle-Python.ps1 -PythonVersion "3.8.12"
+        run: .\Bundle-Python.ps1 -PythonVersion "3.11.2"
         shell: pwsh
       - name: Create Release
         id: create_release
