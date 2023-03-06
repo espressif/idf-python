@@ -33,11 +33,20 @@ if ($True -eq $InstallVirtualenv) {
 # Venv helper files must be extracted from main python.
 # Embedded version does not contain working copy for virtualenv.
 # If Python is not available then install one
-Invoke-WebRequest -Uri "https://www.python.org/ftp/python/${PythonVersion}/python-${PythonVersion}-amd64.exe" -Out "python-amd64.exe"
-.\python-amd64.exe /quiet /passive TargetDir=${pwd}\temp-python3
-$InstallerProcess = Get-Process python-amd64
-Wait-Process -Id $InstallerProcess.id
-$PythonVenvScripts = temp-python3\Lib\venv\scripts\nt
+if ($null -eq (Get-Command "python.exe" -ErrorAction SilentlyContinue))  {
+    Invoke-WebRequest -Uri "https://www.python.org/ftp/python/${PythonVersion}/python-${PythonVersion}-amd64.exe" -Out "python-amd64.exe"
+    .\python-amd64.exe /quiet /passive TargetDir=${pwd}\temp-python3
+    $InstallerProcess = Get-Process python-amd64
+    Wait-Process -Id $InstallerProcess.id
+    $PythonVenvScripts = "temp-python3\Lib\venv\scripts\nt"
+} else {
+    if ($True -eq $InstallVirtualenv) {
+        python -m pip install virtualenv
+        python -m virtualenv temp-python3
+    }
+    $SystemPythonPath = (Get-Command python).path
+    $PythonVenvScripts = Join-Path -Path (Split-Path $SystemPythonPath -Parent) -ChildPath Lib\venv\scripts\nt
+}
 
 mkdir ${PythonDirectory}\Lib\venv\scripts\nt
 Copy-Item ${PythonVenvScripts}\python.exe ${PythonDirectory}\Lib\venv\scripts\nt
